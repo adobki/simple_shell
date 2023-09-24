@@ -53,7 +53,7 @@ char *chk_path(char **argv, char **paths)
 	char *str, *errstr = ": not found\n";
 	int i = 0;
 
-	/* Check if given command exits in the current path */
+	/* Check if given command exists in the current path */
 	if (!find_file(argv[0]))
 		return (argv[0]);
 

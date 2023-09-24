@@ -13,7 +13,7 @@
 int main(int argc, char **argv, char **env)
 {
 	char **usr_str, **paths;
-	size_t ret = 1;
+	size_t ret = 1, i = 0;
 
 	/* Store paths in system PATH environment variable */
 	paths = save_paths(argv[0], env);
@@ -25,10 +25,11 @@ int main(int argc, char **argv, char **env)
 		runcmd(++argv, env, paths), ret = 0;
 
 	/* Create empty string for user command and arguments */
-	usr_str = malloc(sizeof(char *) * 3);
+	usr_str = malloc(sizeof(char *) * MAX_ARGS + 1);
 	if (usr_str)
 	{
-		usr_str[0] = NULL, usr_str[1] = NULL, usr_str[2] = NULL;
+		while (i <= MAX_ARGS)
+			usr_str[i++] = NULL;
 
 		usr_str[0] = malloc(sizeof(char) * ARR_SIZE);
 		if (!usr_str[0])
@@ -72,13 +73,11 @@ int cmdloop(int argc, char **env, char **usr_str, char **paths)
 		ret = getline(usr_str, &str_size, stdin);
 		if ((int)ret < 1)
 			break;
-		if (*usr_str[0] < 33)
+		if (*usr_str[0] < ' ')
 			continue;
 
-		/* Remove trailing blanks from end of getline string*/
-		i = _strlen(usr_str[0]);
-		while (i-- && usr_str[0][i] < 33)
-			usr_str[0][i] = '\0';
+		/* Remove leading/trailing blanks from start/end of getline string */
+		trim_str(usr_str);
 
 		/* Split command and parameters into an array */
 		i = 0, usr_str[0] = strtok(usr_str[0], delim);

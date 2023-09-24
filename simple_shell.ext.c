@@ -13,6 +13,43 @@ int print(char *str)
 }
 
 /**
+ * trim_str - Removes leading and trailing blank spaces from a string.
+ *
+ * @str1: Pointer to a string.
+ *
+ * Return: 0 on SUCCESS,
+ *        -1 otherwise.
+ */
+int trim_str(char **str)
+{
+	int i = 0, start = 0;
+	char *tmp = *str;
+
+	if (!str || !*str)
+		return (-1);
+
+	/* Find start position after leading blank(s) */
+	while (tmp[start] && tmp[start] <= ' ')
+		start++;
+
+	/* Move text to begining of string from start position */
+	if (start)
+	{
+		while (tmp[start])
+			tmp[i++] = tmp[start++];
+		tmp[i] = '\0';
+	}
+
+	/* Remove trailing blanks from end of string*/
+	i = _strlen(tmp);
+	if (i--)
+		while (i && tmp[i] <= ' ')
+			tmp[i--] = '\0';
+
+	return (0);
+}
+
+/**
  * _strlen - Counts characters in a given string.
  *
  * @str: Given string to be measured.

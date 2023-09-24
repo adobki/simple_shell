@@ -9,12 +9,14 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-#define ARR_SIZE 100
+#define ARR_SIZE 1024
+#define MAX_ARGS 50
 
 int cmdloop(int argc, char **env, char **usr_str, char **paths);
 int runcmd(char **argv, char **env, char **paths);
 int find_file(char *path);
 int print(char *str);
+int trim_str(char **str);
 char **save_paths(char *argv0, char **env);
 char *chk_path(char **argv, char **paths);
 char *_concat(char *str1, char *str2);
